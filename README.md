@@ -2,9 +2,12 @@
 Dynamic Urban Sandbox: Interactive Policy Simulation for Future Environments. A demo application for simulating policy impacts on Hong Kong's urban development through AI agent-based modeling.
 
 # Project Collaborators
-# Member:
-- s226453 Mr. TSUI, Tsz Hin
-- s226448 Mr. NG, Ka Hei
+## Member
+The Hang Seng University of Hong Kong
+Department of Computer Science
+Bachelor of Science (Honours) in Applied Computing
+- Mr. TSUI, Tsz Hin
+- Mr. NG, Ka Hei
 
 ## Features
 
