@@ -1,0 +1,595 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.language-switcher {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    gap: 5px;
+}
+
+.lang-btn {
+    padding: 8px 15px;
+    border: 2px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.lang-btn:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.lang-btn.active {
+    background: rgba(255,255,255,0.3);
+    border-color: rgba(255,255,255,0.6);
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.intro-section {
+    background: rgba(255, 255, 255, 0.95);
+    margin: 0 20px 30px 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+}
+
+.intro-content {
+    padding: 25px 30px;
+    text-align: center;
+}
+
+.intro-content h2 {
+    color: #4a5568;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+.intro-content p {
+    color: #718096;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.key-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 15px;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: transform 0.2s;
+}
+
+.feature-item:hover {
+    transform: translateY(-2px);
+}
+
+.feature-icon {
+    font-size: 16px;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.input-section {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.input-section h2 {
+    margin-bottom: 15px;
+    color: #4a5568;
+}
+
+#policyInput {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    resize: vertical;
+    margin-bottom: 15px;
+}
+
+#runSimulation {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#runSimulation:hover {
+    transform: translateY(-2px);
+}
+
+.simulation-area {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.status-panel, .city-visualization {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+#progressFill {
+    height: 100%;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+#cityGrid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 5px;
+    margin-top: 15px;
+}
+
+.city-block {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.residential { background: #48bb78; }
+.commercial { background: #4299e1; }
+.industrial { background: #ed8936; }
+.government { background: #9f7aea; }
+
+.results-section {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    grid-column: 1 / -1;
+}
+
+.result-card {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f7fafc;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+}
+
+.result-card h3 {
+    color: #4a5568;
+    margin-bottom: 15px;
+}
+
+.support-meter {
+    display: flex;
+    height: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.support-yes {
+    background: #48bb78;
+    transition: width 0.5s ease;
+}
+
+.support-no {
+    background: #f56565;
+    transition: width 0.5s ease;
+}
+
+#supportPercentage {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.vulnerability-item {
+    background: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border-left: 4px solid #f56565;
+}
+
+.recommendation {
+    background: #e6fffa;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border-left: 4px solid #38b2ac;
+}
+
+.model-info {
+    margin-bottom: 15px;
+}
+
+.info-toggle {
+    background: #e2e8f0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.info-toggle:hover {
+    background: #cbd5e0;
+}
+
+.model-explanation {
+    background: #f7fafc;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border-left: 4px solid #4299e1;
+}
+
+.legend {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    margin-right: 8px;
+}
+
+.activity-indicator {
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+#activityLevel {
+    font-weight: bold;
+    color: #667eea;
+}
+
+.analysis-section {
+    background: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border-left: 4px solid #f56565;
+}
+
+.analysis-header {
+    font-weight: bold;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.analysis-reasoning {
+    background: #fffaf0;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border-left: 3px solid #ed8936;
+}
+
+.analysis-reasoning strong {
+    color: #c05621;
+}
+
+.env-metrics {
+    display: grid;
+    gap: 15px;
+}
+
+.metric {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+}
+
+.metric-bar {
+    flex: 1;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.metric-bar div {
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.herding-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.stat-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 12px;
+    color: #718096;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2d3748;
+}
+
+.citizen-voice {
+    background: white;
+    padding: 15px;
+    margin: 12px 0;
+    border-radius: 10px;
+    border-left: 4px solid #cbd5e0;
+    transition: transform 0.2s;
+}
+
+.citizen-voice:hover {
+    transform: translateX(5px);
+}
+
+.voice-support {
+    border-left-color: #48bb78;
+    background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);
+}
+
+.voice-opposition {
+    border-left-color: #f56565;
+    background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+}
+
+.voice-concern {
+    border-left-color: #ed8936;
+    background: linear-gradient(135deg, #fffaf0 0%, #ffffff 100%);
+}
+
+.voice-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.voice-icon {
+    font-size: 16px;
+}
+
+.voice-quote {
+    font-style: italic;
+    color: #2d3748;
+    line-height: 1.5;
+    padding-left: 20px;
+    border-left: 2px solid #e2e8f0;
+}
+
+.simulation-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.year-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.year-selector label {
+    font-weight: 600;
+    color: #4a5568;
+    font-size: 14px;
+}
+
+#yearSelector {
+    padding: 10px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+}
+
+#yearSelector:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+#trendChart {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+#trendCanvas {
+    width: 100%;
+    height: 300px;
+    border-radius: 6px;
+}
+
+.trend-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.trend-legend .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.legend-line {
+    width: 20px;
+    height: 3px;
+    border-radius: 2px;
+}
+
+.legend-line.support {
+    background: #48bb78;
+}
+
+.legend-line.economic {
+    background: #4299e1;
+}
+
+.legend-line.environmental {
+    background: #38b2ac;
+}
+
+.legend-line.social {
+    background: #ed8936;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+    
+    header h1 {
+        font-size: 2em;
+    }
+    
+    .legend {
+        grid-template-columns: 1fr;
+    }
+    
+    .language-switcher {
+        position: static;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    
+    .intro-section {
+        margin: 0 10px 20px 10px;
+    }
+    
+    .intro-content {
+        padding: 20px;
+    }
+    
+    .key-features {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+    }
+    
+    .feature-item {
+        font-size: 12px;
+        padding: 10px 12px;
+    }
+    
+    .simulation-controls {
+        gap: 10px;
+    }
+    
+    .trend-legend {
+        gap: 15px;
+    }
+    
+    #trendCanvas {
+        height: 250px;
+    }
+}

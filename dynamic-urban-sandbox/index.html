@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Urban Sandbox: Interactive Policy Simulation for Future Environments</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="language-switcher">
+                <button id="langEn" class="lang-btn active">English</button>
+                <button id="langZh" class="lang-btn">繁體中文</button>
+            </div>
+            <h1 data-en="Dynamic Urban Sandbox" data-zh="動態城市沙盒">Dynamic Urban Sandbox</h1>
+            <p data-en="Interactive Policy Simulation for Future Environments - Hong Kong" data-zh="互動政策推演未來環境 - 香港">Interactive Policy Simulation for Future Environments - Hong Kong</p>
+        </header>
+
+        <div class="intro-section">
+            <div class="intro-content">
+                <h2 data-en="About This Sandbox" data-zh="關於此沙盒">About This Sandbox</h2>
+                <p data-en="This Dynamic Urban Sandbox enables policymakers to test policy effectiveness and assess their impact on Hong Kong's future urban development. By simulating citizen responses through 1000 AI agents, it provides valuable insights for urban planning decisions that enhance livability for Hong Kong residents." data-zh="此動態城市沙盒讓決策者能夠測試政策效能，並評估其對香港未來城市發展的影響。通過1000個AI代理模擬市民反應，為提升香港居民宜居性的城市規劃決策提供寶貴見解。">This Dynamic Urban Sandbox enables policymakers to test policy effectiveness and assess their impact on Hong Kong's future urban development. By simulating citizen responses through 1000 AI agents, it provides valuable insights for urban planning decisions that enhance livability for Hong Kong residents.</p>
+                
+                <div class="key-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">🏙️</span>
+                        <span data-en="Smart City Analysis" data-zh="智慧城市分析">Smart City Analysis</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🤖</span>
+                        <span data-en="AI Agent Simulation" data-zh="AI代理模擬">AI Agent Simulation</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📊</span>
+                        <span data-en="Policy Impact Assessment" data-zh="政策影響評估">Policy Impact Assessment</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🎯</span>
+                        <span data-en="Strategic Recommendations" data-zh="策略建議">Strategic Recommendations</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h2 data-en="Policy Input" data-zh="政策輸入">Policy Input</h2>
+                <textarea id="policyInput" data-en="Enter your policy or strategy to test" data-zh="輸入您要測試的政策或策略"></textarea>
+                <div class="simulation-controls">
+                    <div class="year-selector">
+                        <label data-en="Simulation Years:" data-zh="模擬年份：">Simulation Years:</label>
+                        <select id="yearSelector">
+                            <option value="5" data-en="5 Years" data-zh="5年">5 Years</option>
+                            <option value="10" selected data-en="10 Years" data-zh="10年">10 Years</option>
+                            <option value="15" data-en="15 Years" data-zh="15年">15 Years</option>
+                            <option value="20" data-en="20 Years" data-zh="20年">20 Years</option>
+                        </select>
+                    </div>
+                    <button id="runSimulation" data-en="Run Simulation" data-zh="執行模擬">Run Simulation</button>
+                </div>
+            </div>
+
+            <div class="simulation-area">
+                <div class="status-panel">
+                    <h3 data-en="Simulation Status" data-zh="模擬狀態">Simulation Status</h3>
+                    <div id="simulationStatus" data-en="Ready to simulate" data-zh="準備開始模擬">Ready to simulate</div>
+                    <div class="progress-bar">
+                        <div id="progressFill"></div>
+                    </div>
+                </div>
+
+                <div class="city-visualization">
+                    <h3 data-en="Hong Kong City Model" data-zh="香港城市模型">Hong Kong City Model</h3>
+                    <div class="model-info">
+                        <div class="info-toggle" onclick="toggleInfo()">
+                            <span data-en="ℹ️ What is this?" data-zh="ℹ️ 這是什麼？">ℹ️ What is this?</span>
+                        </div>
+                        <div id="modelExplanation" class="model-explanation" style="display: none;">
+                            <p><strong data-en="City Grid:" data-zh="城市網格：">City Grid:</strong> <span data-en="Each block represents a district zone in Hong Kong" data-zh="每個方塊代表香港的一個區域">Each block represents a district zone in Hong Kong</span></p>
+                            <div class="legend">
+                                <div class="legend-item"><span class="legend-color residential"></span><span data-en="Residential Areas" data-zh="住宅區域">Residential Areas</span></div>
+                                <div class="legend-item"><span class="legend-color commercial"></span><span data-en="Commercial Districts" data-zh="商業區域">Commercial Districts</span></div>
+                                <div class="legend-item"><span class="legend-color industrial"></span><span data-en="Industrial Zones" data-zh="工業區域">Industrial Zones</span></div>
+                                <div class="legend-item"><span class="legend-color government"></span><span data-en="Government Buildings" data-zh="政府建築">Government Buildings</span></div>
+                            </div>
+                            <p><strong data-en="AI Agent Activity:" data-zh="AI代理活動：">AI Agent Activity:</strong> <span data-en="Brightness and size changes show citizen activity levels in each area during simulation" data-zh="亮度和大小變化顯示模擬過程中各區域的市民活動水平">Brightness and size changes show citizen activity levels in each area during simulation</span></p>
+                        </div>
+                    </div>
+                    <div id="cityGrid"></div>
+                    <div class="activity-indicator">
+                        <span data-en="AI Agent Activity: " data-zh="AI代理活動：">AI Agent Activity: </span>
+                        <span id="activityLevel">Inactive</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <h2 data-en="Simulation Results" data-zh="模擬結果">Simulation Results</h2>
+                
+                <div class="result-card">
+                    <h3 data-en="AI Agent Decision Criteria" data-zh="AI代理決策準則">AI Agent Decision Criteria</h3>
+                    <div id="decisionCriteria"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3 data-en="Policy Support" data-zh="政策支持度">Policy Support</h3>
+                    <div id="policySupportChart">
+                        <div class="support-meter">
+                            <div class="support-yes" id="supportYes"></div>
+                            <div class="support-no" id="supportNo"></div>
+                        </div>
+                        <div id="supportPercentage"></div>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <h3 data-en="Trend Analysis" data-zh="趨勢分析">Trend Analysis</h3>
+                    <div id="trendChart">
+                        <canvas id="trendCanvas" width="800" height="300"></canvas>
+                        <div id="trendLegend"></div>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <h3 data-en="Environmental Impact Data" data-zh="環境影響數據">Environmental Impact Data</h3>
+                    <div id="environmentalData"></div>
+                </div>
+                
+                <div class="result-card">
+                    <h3 data-en="AI Agent Social Dynamics" data-zh="AI代理社會動態">AI Agent Social Dynamics</h3>
+                    <div id="herdingAnalysis"></div>
+                </div>
+                
+                <div class="result-card">
+                    <h3 data-en="Citizen Voices & Public Opinion" data-zh="市民心聲與民意反映">Citizen Voices & Public Opinion</h3>
+                    <div id="citizenVoices"></div>
+                </div>
+
+                <div class="result-card">
+                    <h3 data-en="Detailed Analysis & Strategic Recommendations" data-zh="詳細分析與策略建議">Detailed Analysis & Strategic Recommendations</h3>
+                    <div id="vulnerabilities"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="simulation.js"></script>
+</body>
+</html>
