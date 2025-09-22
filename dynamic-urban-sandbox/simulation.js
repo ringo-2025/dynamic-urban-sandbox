@@ -134,6 +134,7 @@ class UrbanSimulation {
         this.citizens = [];
         this.districts = ['Central', 'Wan Chai', 'Causeway Bay', 'Tsim Sha Tsui', 'Mong Kok', 'Sha Tin', 'Tuen Mun', 'Tai Po'];
         this.occupations = ['teacher', 'business', 'healthcare', 'government', 'service', 'technology', 'finance', 'retail', 'tourism', 'logistics', 'fintech', 'startup', 'creative', 'food_service'];
+        this.regionData = {};
         this.initializeCitizens();
         this.initializeCityGrid();
     }
@@ -185,7 +186,9 @@ class UrbanSimulation {
         }
 
         const results = this.generateResults(policyText, years);
+        this.generateRegionalData(policyText, results.supportPercentage);
         this.displayResults(results, years);
+        this.setupRegionSelector();
         
         statusElement.textContent = translations[currentLang].completed;
         resultsSection.style.display = 'block';
@@ -245,6 +248,163 @@ class UrbanSimulation {
             trendData,
             years
         };
+    }
+    
+    generateRegionalData(policyText, overallSupport) {
+        const policy = policyText.toLowerCase();
+        
+        // 定義香港各地區的特性
+        const regionCharacteristics = {
+            overall: { name: 'Overall', baseSupport: overallSupport },
+            hk_island: { name: 'Hong Kong Island', baseSupport: overallSupport, businessFriendly: 0.8, highIncome: 0.7 },
+            kowloon: { name: 'Kowloon', baseSupport: overallSupport, density: 0.9, workingClass: 0.6 },
+            new_territories: { name: 'New Territories', baseSupport: overallSupport, familyOriented: 0.8, suburban: 0.7 },
+            central_western: { name: 'Central & Western', baseSupport: overallSupport, financial: 0.9, international: 0.8 },
+            eastern: { name: 'Eastern District', baseSupport: overallSupport, residential: 0.7, middleClass: 0.6 },
+            southern: { name: 'Southern District', baseSupport: overallSupport, affluent: 0.6, environmental: 0.7 },
+            wan_chai: { name: 'Wan Chai', baseSupport: overallSupport, business: 0.8, tech: 0.7 },
+            sham_shui_po: { name: 'Sham Shui Po', baseSupport: overallSupport, lowIncome: 0.8, elderly: 0.6 },
+            kowloon_city: { name: 'Kowloon City', baseSupport: overallSupport, traditional: 0.7, education: 0.6 },
+            kwun_tong: { name: 'Kwun Tong', baseSupport: overallSupport, industrial: 0.8, working: 0.7 },
+            wong_tai_sin: { name: 'Wong Tai Sin', baseSupport: overallSupport, publicHousing: 0.9, lowIncome: 0.7 },
+            yau_tsim_mong: { name: 'Yau Tsim Mong', baseSupport: overallSupport, commercial: 0.8, tourism: 0.7 },
+            islands: { name: 'Islands', baseSupport: overallSupport, rural: 0.8, environmental: 0.9 },
+            kwai_tsing: { name: 'Kwai Tsing', baseSupport: overallSupport, industrial: 0.9, port: 0.8 },
+            north: { name: 'North District', baseSupport: overallSupport, border: 0.8, agricultural: 0.6 },
+            sai_kung: { name: 'Sai Kung', baseSupport: overallSupport, affluent: 0.7, environmental: 0.9 },
+            sha_tin: { name: 'Sha Tin', baseSupport: overallSupport, newTown: 0.8, family: 0.7 },
+            tai_po: { name: 'Tai Po', baseSupport: overallSupport, suburban: 0.7, elderly: 0.6 },
+            tsuen_wan: { name: 'Tsuen Wan', baseSupport: overallSupport, industrial: 0.7, transport: 0.8 },
+            tuen_mun: { name: 'Tuen Mun', baseSupport: overallSupport, newTown: 0.8, young: 0.6 },
+            yuen_long: { name: 'Yuen Long', baseSupport: overallSupport, rural: 0.7, traditional: 0.8 }
+        };
+        
+        // 根據政策類型調整各地區支持度
+        Object.keys(regionCharacteristics).forEach(regionKey => {
+            const region = regionCharacteristics[regionKey];
+            let adjustedSupport = region.baseSupport;
+            
+            // 商業政策
+            if (policy.includes('business') || policy.includes('fintech') || policy.includes('商業') || policy.includes('金融科技')) {
+                if (region.financial) adjustedSupport += (region.financial - 0.5) * 20;
+                if (region.business) adjustedSupport += (region.business - 0.5) * 15;
+                if (region.international) adjustedSupport += (region.international - 0.5) * 10;
+            }
+            
+            // 房屋政策
+            if (policy.includes('housing') || policy.includes('房屋')) {
+                if (region.publicHousing) adjustedSupport += (region.publicHousing - 0.5) * 25;
+                if (region.lowIncome) adjustedSupport += (region.lowIncome - 0.5) * 20;
+                if (region.young) adjustedSupport += (region.young - 0.5) * 15;
+                if (region.affluent) adjustedSupport -= (region.affluent - 0.5) * 10;
+            }
+            
+            // 環境政策
+            if (policy.includes('environment') || policy.includes('green') || policy.includes('環境') || policy.includes('綠色')) {
+                if (region.environmental) adjustedSupport += (region.environmental - 0.5) * 20;
+                if (region.rural) adjustedSupport += (region.rural - 0.5) * 15;
+                if (region.industrial) adjustedSupport -= (region.industrial - 0.5) * 10;
+            }
+            
+            // 稅收政策
+            if (policy.includes('tax') || policy.includes('稅')) {
+                if (region.highIncome) adjustedSupport -= (region.highIncome - 0.5) * 25;
+                if (region.business) adjustedSupport -= (region.business - 0.5) * 20;
+                if (region.lowIncome) adjustedSupport += (region.lowIncome - 0.5) * 15;
+            }
+            
+            // 科技政策
+            if (policy.includes('tech') || policy.includes('smart') || policy.includes('digital') || policy.includes('科技') || policy.includes('智能')) {
+                if (region.tech) adjustedSupport += (region.tech - 0.5) * 20;
+                if (region.young) adjustedSupport += (region.young - 0.5) * 15;
+                if (region.elderly) adjustedSupport -= (region.elderly - 0.5) * 15;
+                if (region.traditional) adjustedSupport -= (region.traditional - 0.5) * 10;
+            }
+            
+            // 交通政策
+            if (policy.includes('transport') || policy.includes('mtr') || policy.includes('交通') || policy.includes('港鐵')) {
+                if (region.transport) adjustedSupport += (region.transport - 0.5) * 20;
+                if (region.suburban) adjustedSupport += (region.suburban - 0.5) * 15;
+                if (region.newTown) adjustedSupport += (region.newTown - 0.5) * 15;
+            }
+            
+            // 確保支持度在合理範圍內
+            adjustedSupport = Math.max(5, Math.min(95, adjustedSupport));
+            
+            this.regionData[regionKey] = {
+                name: region.name,
+                support: Math.round(adjustedSupport),
+                characteristics: this.getRegionDescription(regionKey, region)
+            };
+        });
+    }
+    
+    getRegionDescription(regionKey, region) {
+        const descriptions = {
+            overall: currentLang === 'en' ? 'Comprehensive view across all Hong Kong districts' : '香港所有地區的綜合視圖',
+            hk_island: currentLang === 'en' ? 'Financial hub with high-income residents and international businesses' : '金融中心，高收入居民和國際企業',
+            kowloon: currentLang === 'en' ? 'Dense urban area with diverse working-class communities' : '人口密集的城市地區，多元化工人階級社區',
+            new_territories: currentLang === 'en' ? 'Suburban family-oriented communities with new town developments' : '以家庭為導向的郊區社區，新市鎮發展',
+            central_western: currentLang === 'en' ? 'Premium financial district with government offices and luxury residences' : '優質金融區，政府辦公室和豪華住宅',
+            eastern: currentLang === 'en' ? 'Established residential area with middle-class families' : '成熟住宅區，中產階級家庭',
+            southern: currentLang === 'en' ? 'Affluent district with environmental consciousness and scenic areas' : '富裕地區，環保意識強，風景優美',
+            wan_chai: currentLang === 'en' ? 'Business and technology hub with modern developments' : '商業和科技中心，現代化發展',
+            sham_shui_po: currentLang === 'en' ? 'Traditional working-class area with elderly population and affordable housing' : '傳統工人階級地區，老年人口和經濟適用房',
+            kowloon_city: currentLang === 'en' ? 'Historic district with educational institutions and traditional values' : '歷史悠久的地區，教育機構和傳統價值觀',
+            kwun_tong: currentLang === 'en' ? 'Industrial and commercial area with working-class residents' : '工業和商業區，工人階級居民',
+            wong_tai_sin: currentLang === 'en' ? 'Public housing estates with lower-income families' : '公共房屋屋邨，低收入家庭',
+            yau_tsim_mong: currentLang === 'en' ? 'Commercial and tourism center with diverse businesses' : '商業和旅遊中心，多元化企業',
+            islands: currentLang === 'en' ? 'Rural and environmental areas including Lantau and other islands' : '包括大嶼山和其他島嶼的鄉村和環境地區',
+            kwai_tsing: currentLang === 'en' ? 'Major industrial and port area with container terminals' : '主要工業和港口地區，貨櫃碼頭',
+            north: currentLang === 'en' ? 'Border district with agricultural areas and cross-border activities' : '邊境地區，農業區和跨境活動',
+            sai_kung: currentLang === 'en' ? 'Affluent area known for natural beauty and environmental protection' : '以自然美景和環境保護聞名的富裕地區',
+            sha_tin: currentLang === 'en' ? 'Well-planned new town with family-friendly facilities' : '規劃良好的新市鎮，家庭友好設施',
+            tai_po: currentLang === 'en' ? 'Suburban district with aging population and traditional communities' : '郊區地區，人口老化和傳統社區',
+            tsuen_wan: currentLang === 'en' ? 'Industrial area with good transport connections' : '工業區，交通便利',
+            tuen_mun: currentLang === 'en' ? 'New town development with younger demographic' : '新市鎮發展，年輕人口',
+            yuen_long: currentLang === 'en' ? 'Rural district with traditional communities and agricultural heritage' : '鄉村地區，傳統社區和農業傳統'
+        };
+        
+        return descriptions[regionKey] || '';
+    }
+    
+    setupRegionSelector() {
+        const regionSelector = document.getElementById('regionSelector');
+        const supportYes = document.getElementById('supportYes');
+        const supportNo = document.getElementById('supportNo');
+        const supportPercentage = document.getElementById('supportPercentage');
+        const regionInfo = document.getElementById('regionInfo');
+        
+        regionSelector.addEventListener('change', (e) => {
+            const selectedRegion = e.target.value;
+            const regionData = this.regionData[selectedRegion];
+            
+            if (regionData) {
+                const support = regionData.support;
+                const opposition = 100 - support;
+                
+                // 更新支持度條
+                supportYes.style.width = `${support}%`;
+                supportNo.style.width = `${opposition}%`;
+                
+                // 更新百分比文字
+                const t = translations[currentLang];
+                supportPercentage.textContent = `${support}% ${t.supportText} | ${opposition}% ${t.oppositionText}`;
+                
+                // 更新地區信息
+                if (selectedRegion === 'overall') {
+                    regionInfo.textContent = '';
+                    regionInfo.style.display = 'none';
+                } else {
+                    regionInfo.textContent = regionData.characteristics;
+                    regionInfo.style.display = 'block';
+                }
+            }
+        });
+        
+        // 初始化為整體支持度
+        regionSelector.value = 'overall';
+        regionInfo.style.display = 'none';
     }
     
     generateEnvironmentalData(policyText, supportPercentage) {
@@ -1014,6 +1174,14 @@ function switchLanguage(lang) {
     
     // Update placeholder for policy input
     updatePolicyPlaceholder();
+    
+    // Update region selector options
+    document.querySelectorAll('#regionSelector option').forEach(option => {
+        const key = option.getAttribute(`data-${lang}`);
+        if (key) {
+            option.textContent = key;
+        }
+    });
 }
 
 function toggleInfo() {
@@ -1045,6 +1213,8 @@ document.getElementById('runSimulation').addEventListener('click', () => {
 
 document.getElementById('langEn').addEventListener('click', () => switchLanguage('en'));
 document.getElementById('langZh').addEventListener('click', () => switchLanguage('zh'));
+
+// Region selector change handler will be set up after simulation runs
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {

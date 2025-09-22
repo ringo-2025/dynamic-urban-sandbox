@@ -105,12 +105,40 @@
 
                 <div class="result-card">
                     <h3 data-en="Policy Support" data-zh="政策支持度">Policy Support</h3>
+                    <div class="region-selector">
+                        <label data-en="View by Region:" data-zh="按地區查看：">View by Region:</label>
+                        <select id="regionSelector">
+                            <option value="overall" data-en="Overall (All Regions)" data-zh="綜合（所有地區）">Overall (All Regions)</option>
+                            <option value="hk_island" data-en="Hong Kong Island" data-zh="香港島">Hong Kong Island</option>
+                            <option value="kowloon" data-en="Kowloon" data-zh="九龍">Kowloon</option>
+                            <option value="new_territories" data-en="New Territories" data-zh="新界">New Territories</option>
+                            <option value="central_western" data-en="Central & Western" data-zh="中西區">Central & Western</option>
+                            <option value="eastern" data-en="Eastern District" data-zh="東區">Eastern District</option>
+                            <option value="southern" data-en="Southern District" data-zh="南區">Southern District</option>
+                            <option value="wan_chai" data-en="Wan Chai" data-zh="灣仔">Wan Chai</option>
+                            <option value="sham_shui_po" data-en="Sham Shui Po" data-zh="深水埗">Sham Shui Po</option>
+                            <option value="kowloon_city" data-en="Kowloon City" data-zh="九龍城">Kowloon City</option>
+                            <option value="kwun_tong" data-en="Kwun Tong" data-zh="觀塘">Kwun Tong</option>
+                            <option value="wong_tai_sin" data-en="Wong Tai Sin" data-zh="黃大仙">Wong Tai Sin</option>
+                            <option value="yau_tsim_mong" data-en="Yau Tsim Mong" data-zh="油尖旺">Yau Tsim Mong</option>
+                            <option value="islands" data-en="Islands" data-zh="離島">Islands</option>
+                            <option value="kwai_tsing" data-en="Kwai Tsing" data-zh="葵青">Kwai Tsing</option>
+                            <option value="north" data-en="North District" data-zh="北區">North District</option>
+                            <option value="sai_kung" data-en="Sai Kung" data-zh="西貢">Sai Kung</option>
+                            <option value="sha_tin" data-en="Sha Tin" data-zh="沙田">Sha Tin</option>
+                            <option value="tai_po" data-en="Tai Po" data-zh="大埔">Tai Po</option>
+                            <option value="tsuen_wan" data-en="Tsuen Wan" data-zh="荃灣">Tsuen Wan</option>
+                            <option value="tuen_mun" data-en="Tuen Mun" data-zh="屯門">Tuen Mun</option>
+                            <option value="yuen_long" data-en="Yuen Long" data-zh="元朗">Yuen Long</option>
+                        </select>
+                    </div>
                     <div id="policySupportChart">
                         <div class="support-meter">
                             <div class="support-yes" id="supportYes"></div>
                             <div class="support-no" id="supportNo"></div>
                         </div>
                         <div id="supportPercentage"></div>
+                        <div id="regionInfo" class="region-info"></div>
                     </div>
                 </div>
                 

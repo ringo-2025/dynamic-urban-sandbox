@@ -544,6 +544,46 @@ header p {
     background: #ed8936;
 }
 
+.region-selector {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.region-selector label {
+    font-weight: 600;
+    color: #4a5568;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+#regionSelector {
+    padding: 8px 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+    min-width: 200px;
+}
+
+#regionSelector:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.region-info {
+    margin-top: 10px;
+    padding: 10px;
+    background: #f7fafc;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #4a5568;
+    border-left: 3px solid #667eea;
+}
+
 @media (max-width: 768px) {
     .main-content {
         grid-template-columns: 1fr;
@@ -591,5 +631,16 @@ header p {
     
     #trendCanvas {
         height: 250px;
+    }
+    
+    .region-selector {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    #regionSelector {
+        width: 100%;
+        min-width: auto;
     }
 }
