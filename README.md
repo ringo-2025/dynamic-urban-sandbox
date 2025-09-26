@@ -22,7 +22,7 @@ Bachelor of Science (Honours) in Applied Computing
 - **Adaptive Responses**: Agents adjust their support based on age, income, occupation, and personal priorities
 
 ### 📊 Policy Analysis
-- **10-Year Simulation**: Projects long-term impacts of proposed policies
+- **5/10/15/20-Year Simulation**: Projects long-term impacts of proposed policies
 - **Support Metrics**: Shows percentage of citizen support vs opposition
 - **Decision Criteria**: Reveals the main factors AI agents consider when evaluating policies
 - **Vulnerability Assessment**: Identifies potential weak points and provides actionable recommendations
@@ -30,7 +30,7 @@ Bachelor of Science (Honours) in Applied Computing
 ## How to Use
 
 1. **Open the Application**: Open `index.html` in your web browser
-2. **Enter Policy**: Type your policy or strategy in the text area (e.g., "Increase public housing by 20%")
+2. **Enter Policy**: Type your policy or strategy in the text area (e.g., "Increase public housing by 30% over 10 years")
 3. **Run Simulation**: Click "Run 10-Year Simulation" to start the analysis
 4. **View Results**: Review the simulation results including:
    - AI agent decision criteria
