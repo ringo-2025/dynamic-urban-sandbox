@@ -1063,67 +1063,225 @@ class UrbanSimulation {
         const moderateOpponents = supportScores.filter(score => score >= 0.3 && score <= 0.7).length;
         const strongOpponents = supportScores.filter(score => score < 0.3).length;
         
-        // Supporter voices
+        // 增加更多支持者聲音
         if (strongSupporters > 0) {
-            if (policy.includes('smart') || policy.includes('tech') || policy.includes('digital')) {
-                voices.push({
-                    type: 'support',
-                    demographic: currentLang === 'en' ? 'Tech Professional, Age 32' : '科技專業人士，32歲',
-                    quote: currentLang === 'en' ? 
-                        "This policy will put Hong Kong at the forefront of innovation. As someone working in tech, I see how digital transformation can improve efficiency and create new opportunities for young professionals like me." :
-                        "這項政策將讓香港站在創新前沿。作為科技工作者，我看到數字化轉型如何提高效率，為像我這樣的年輕專業人士創造新機會。"
-                });
+            // 科技政策支持者
+            if (policy.includes('smart') || policy.includes('tech') || policy.includes('digital') || policy.includes('智能') || policy.includes('科技')) {
+                const techVoices = [
+                    {
+                        type: 'support',
+                        demographic: currentLang === 'en' ? 'Tech Startup Founder, Age 29' : '科技初創創辦人，29歲',
+                        quote: currentLang === 'en' ? 
+                            "This is exactly what Hong Kong needs to compete with Shenzhen and Singapore! Digital transformation will attract global talent and investment. I'm already seeing increased interest from international VCs." :
+                            "這正是香港與深圳和新加坡競爭所需要的！數字化轉型將吸引全球人才和投資。我已經看到國際風投的興趣增加。"
+                    },
+                    {
+                        type: 'support',
+                        demographic: currentLang === 'en' ? 'University Student, Computer Science' : '大學生，計算機科學',
+                        quote: currentLang === 'en' ? 
+                            "Finally! This policy gives me hope that I won't have to move to Silicon Valley after graduation. Hong Kong can become Asia's tech hub if we embrace innovation now." :
+                            "終於！這項政策讓我看到希望，畢業後不用搬到矽谷。如果我們現在擁抱創新，香港可以成為亞洲的科技中心。"
+                    },
+                    {
+                        type: 'support',
+                        demographic: currentLang === 'en' ? 'Digital Marketing Manager, Age 35' : '數字營銷經理，35歲',
+                        quote: currentLang === 'en' ? 
+                            "Smart city initiatives will revolutionize how we work and live. Better data analytics, seamless services, and improved quality of life - this is the future Hong Kong deserves." :
+                            "智慧城市倡議將徹底改變我們的工作和生活方式。更好的數據分析、無縫服務和改善的生活質量——這是香港應得的未來。"
+                    }
+                ];
+                voices.push(...techVoices.slice(0, Math.min(2, Math.ceil(strongSupporters / 200))));
             }
+            
+            // 房屋政策支持者
             if (policy.includes('housing') || policy.includes('房屋')) {
-                voices.push({
-                    type: 'support',
-                    demographic: currentLang === 'en' ? 'Young Family, Sha Tin' : '年輕家庭，沙田',
-                    quote: currentLang === 'en' ? 
-                        "Finally, a policy that addresses our housing crisis! My husband and I have been waiting for public housing for 6 years. This gives us hope that our children won't face the same struggles." :
-                        "終於有政策解決我們的房屋危機！我和丈夫已經等了6年公屋。這讓我們看到希望，我們的孩子不會面臨同樣的困難。"
-                });
+                const housingVoices = [
+                    {
+                        type: 'support',
+                        demographic: currentLang === 'en' ? 'Young Couple, Waiting List 7 Years' : '年輕夫婦，輪候7年',
+                        quote: currentLang === 'en' ? 
+                            "We've been living in a subdivided flat for years. This policy gives us real hope of having our own home where we can start a family. Every additional unit matters to families like ours." :
+                            "我們在劏房住了好幾年。這項政策讓我們真正看到擁有自己家園的希望，可以組建家庭。每個額外的單位對我們這樣的家庭都很重要。"
+                    },
+                    {
+                        type: 'support',
+                        demographic: currentLang === 'en' ? 'Social Worker, Sham Shui Po' : '社工，深水埗',
+                        quote: currentLang === 'en' ? 
+                            "I work with families in inadequate housing daily. This policy addresses the root cause of many social problems. Stable housing means better education outcomes for children and improved mental health for families." :
+                            "我每天與住房不足的家庭打交道。這項政策解決了許多社會問題的根源。穩定的住房意味著孩子更好的教育成果和家庭更好的心理健康。"
+                    },
+                    {
+                        type: 'support',
+                        demographic: currentLang === 'en' ? 'Fresh Graduate, Age 24' : '應屆畢業生，24歲',
+                        quote: currentLang === 'en' ? 
+                            "Housing costs are eating up 70% of my salary. If this policy succeeds, maybe I can actually save money and plan for the future instead of just surviving month to month." :
+                            "住房成本佔了我薪水的70%。如果這項政策成功，也許我真的可以存錢並為未來做計劃，而不是月月光。"
+                    }
+                ];
+                voices.push(...housingVoices.slice(0, Math.min(2, Math.ceil(strongSupporters / 150))));
             }
-            if (policy.includes('environment') || policy.includes('green')) {
-                voices.push({
-                    type: 'support',
-                    demographic: currentLang === 'en' ? 'Environmental Advocate, Age 28' : '環保倡議者，28歲',
-                    quote: currentLang === 'en' ? 
-                        "Climate change is real and Hong Kong needs to act now. This policy shows the government is serious about our environmental future. My generation will inherit this planet." :
-                        "氣候變化是真實的，香港需要立即行動。這項政策顯示政府對我們的環境未來是認真的。我們這一代將繼承這個星球。"
-                });
+            
+            // 環境政策支持者
+            if (policy.includes('environment') || policy.includes('green') || policy.includes('環境') || policy.includes('綠色')) {
+                const envVoices = [
+                    {
+                        type: 'support',
+                        demographic: currentLang === 'en' ? 'Mother of Two, Tai Po' : '兩孩母親，大埔',
+                        quote: currentLang === 'en' ? 
+                            "My children deserve clean air and a healthy environment. I'm tired of checking air quality before letting them play outside. This policy is an investment in their future." :
+                            "我的孩子們應該有清潔的空氣和健康的環境。我厭倦了在讓他們外出玩耍前檢查空氣質量。這項政策是對他們未來的投資。"
+                    },
+                    {
+                        type: 'support',
+                        demographic: currentLang === 'en' ? 'Marine Biologist, Age 31' : '海洋生物學家，31歲',
+                        quote: currentLang === 'en' ? 
+                            "Hong Kong's marine ecosystem is under severe stress. This environmental policy could help restore our coral reefs and protect biodiversity. We're at a critical tipping point." :
+                            "香港的海洋生態系統承受著嚴重壓力。這項環境政策可以幫助恢復我們的珊瑚礁並保護生物多樣性。我們正處於關鍵的轉折點。"
+                    },
+                    {
+                        type: 'support',
+                        demographic: currentLang === 'en' ? 'Renewable Energy Engineer' : '可再生能源工程師',
+                        quote: currentLang === 'en' ? 
+                            "This policy will create thousands of green jobs and position Hong Kong as a regional leader in clean technology. The economic and environmental benefits are enormous." :
+                            "這項政策將創造數千個綠色工作崗位，並使香港成為清潔技術的區域領導者。經濟和環境效益是巨大的。"
+                    }
+                ];
+                voices.push(...envVoices.slice(0, Math.min(2, Math.ceil(strongSupporters / 200))));
+            }
+            
+            // 商業/金融科技政策支持者
+            if (policy.includes('fintech') || policy.includes('business') || policy.includes('金融科技') || policy.includes('商業')) {
+                const bizVoices = [
+                    {
+                        type: 'support',
+                        demographic: currentLang === 'en' ? 'Investment Banker, Central' : '投資銀行家，中環',
+                        quote: currentLang === 'en' ? 
+                            "Hong Kong needs to innovate to maintain its financial hub status. This policy will attract fintech companies and keep us competitive against Singapore and other regional centers." :
+                            "香港需要創新以維持其金融中心地位。這項政策將吸引金融科技公司，讓我們與新加坡和其他區域中心保持競爭力。"
+                    },
+                    {
+                        type: 'support',
+                        demographic: currentLang === 'en' ? 'Small Business Owner, Mong Kok' : '小企業主，旺角',
+                        quote: currentLang === 'en' ? 
+                            "Digital payment systems and online platforms will help my business reach more customers. The pandemic taught us that businesses need to adapt or die." :
+                            "數字支付系統和在線平台將幫助我的企業接觸更多客戶。疫情教會我們，企業需要適應或死亡。"
+                    }
+                ];
+                voices.push(...bizVoices.slice(0, Math.min(1, Math.ceil(strongSupporters / 250))));
+            }
+            
+            // 交通政策支持者
+            if (policy.includes('transport') || policy.includes('mtr') || policy.includes('交通') || policy.includes('港鐵')) {
+                const transportVoices = [
+                    {
+                        type: 'support',
+                        demographic: currentLang === 'en' ? 'Daily Commuter, Tuen Mun' : '日常通勤者，屯門',
+                        quote: currentLang === 'en' ? 
+                            "I spend 3 hours daily commuting. Better transport connections will give me more time with my family and reduce stress. This is about quality of life." :
+                            "我每天花3小時通勤。更好的交通連接將讓我有更多時間與家人在一起，減少壓力。這關乎生活質量。"
+                    },
+                    {
+                        type: 'support',
+                        demographic: currentLang === 'en' ? 'Elderly Resident, North District' : '長者居民，北區',
+                        quote: currentLang === 'en' ? 
+                            "Better transport means I can visit my children more often and access medical services easily. Connectivity is crucial for aging communities like ours." :
+                            "更好的交通意味著我可以更經常探望孩子，輕鬆獲得醫療服務。連通性對我們這樣的老齡化社區至關重要。"
+                    }
+                ];
+                voices.push(...transportVoices.slice(0, Math.min(1, Math.ceil(strongSupporters / 300))));
             }
         }
         
-        // Moderate/concerned voices
+        // 增加更多關注和中性聲音
         if (moderateOpponents > 0) {
-            voices.push({
-                type: 'concern',
-                demographic: currentLang === 'en' ? 'Small Business Owner, Mong Kok' : '小企業主，旺角',
-                quote: currentLang === 'en' ? 
-                    "I understand the need for change, but I'm worried about the costs. My restaurant has been struggling since the pandemic. Will there be support for small businesses like mine during this transition?" :
-                    "我理解改變的需要，但我擔心成本。我的餐廳自疫情以來一直在掙扎。在這個轉型期間，會有對像我這樣的小企業的支持嗎？"
-            });
+            const concernVoices = [
+                {
+                    type: 'concern',
+                    demographic: currentLang === 'en' ? 'Small Restaurant Owner, Tsim Sha Tsui' : '小餐廳老闆，尖沙咀',
+                    quote: currentLang === 'en' ? 
+                        "I support the goals, but implementation worries me. My business barely survived COVID. Will there be transition support and training for traditional businesses like mine?" :
+                        "我支持目標，但實施讓我擔心。我的生意勉強度過了疫情。會有對我這樣的傳統企業的過渡支持和培訓嗎？"
+                },
+                {
+                    type: 'concern',
+                    demographic: currentLang === 'en' ? 'Middle-aged Teacher, Kwun Tong' : '中年教師，觀塘',
+                    quote: currentLang === 'en' ? 
+                        "The policy sounds promising, but I need to see concrete timelines and budgets. How will this affect my children's education and our family's daily life?" :
+                        "政策聽起來很有希望，但我需要看到具體的時間表和預算。這將如何影響我孩子的教育和我們家庭的日常生活？"
+                },
+                {
+                    type: 'concern',
+                    demographic: currentLang === 'en' ? 'Healthcare Worker, Age 42' : '醫護人員，42歲',
+                    quote: currentLang === 'en' ? 
+                        "Change is necessary, but we need to ensure it doesn't disrupt essential services. Healthcare is already stretched thin - we need guarantees that improvements won't come at our expense." :
+                        "改變是必要的，但我們需要確保它不會干擾基本服務。醫療保健已經捉襟見肘——我們需要保證改善不會以我們為代價。"
+                }
+            ];
+            voices.push(...concernVoices.slice(0, Math.min(2, Math.ceil(moderateOpponents / 200))));
         }
         
-        // Opposition voices
+        // 增加更多反對聲音
         if (strongOpponents > 0) {
+            const oppositionVoices = [];
+            
             if (policy.includes('tax') || policy.includes('稅')) {
-                voices.push({
+                oppositionVoices.push(
+                    {
+                        type: 'opposition',
+                        demographic: currentLang === 'en' ? 'Business Executive, Central' : '企業高管，中環',
+                        quote: currentLang === 'en' ? 
+                            "This tax policy will make Hong Kong less competitive. Companies are already considering relocating to Singapore. We risk losing our status as Asia's financial center." :
+                            "這項稅收政策將使香港競爭力下降。公司已經在考慮遷移到新加坡。我們有失去亞洲金融中心地位的風險。"
+                    },
+                    {
+                        type: 'opposition',
+                        demographic: currentLang === 'en' ? 'Manufacturing Company Owner' : '製造業公司老闆',
+                        quote: currentLang === 'en' ? 
+                            "Additional taxes will force us to cut jobs or move operations to mainland China. This policy hurts the very people it claims to help - working families." :
+                            "額外的稅收將迫使我們裁員或將業務遷移到中國大陸。這項政策傷害了它聲稱要幫助的人——工薪家庭。"
+                    }
+                );
+            }
+            
+            if (policy.includes('housing') || policy.includes('房屋')) {
+                oppositionVoices.push({
                     type: 'opposition',
-                    demographic: currentLang === 'en' ? 'Middle-aged Professional, Central' : '中年專業人士，中環',
+                    demographic: currentLang === 'en' ? 'Property Developer Representative' : '地產發展商代表',
                     quote: currentLang === 'en' ? 
-                        "Hong Kong's competitiveness comes from low taxes. This policy will drive businesses away and hurt our economy. We need to find other solutions that don't burden taxpayers." :
-                        "香港的競爭力來自低稅率。這項政策會趕走企業，損害我們的經濟。我們需要找到其他不會加重納稅人負擔的解決方案。"
-                });
-            } else {
-                voices.push({
-                    type: 'opposition',
-                    demographic: currentLang === 'en' ? 'Retiree, Tai Po' : '退休人士，大埔',
-                    quote: currentLang === 'en' ? 
-                        "I've lived in Hong Kong for 40 years and seen many policy changes. This seems rushed and unclear. The government should focus on basic services first before trying new experiments." :
-                        "我在香港生活了40年，見過許多政策變化。這個似乎倉促且不清楚。政府應該先專注於基本服務，然後再嘗試新實驗。"
+                        "Rapid housing expansion without proper planning will create infrastructure problems. We need sustainable development, not rushed construction that compromises quality and safety." :
+                        "沒有適當規劃的快速房屋擴張將造成基礎設施問題。我們需要可持續發展，而不是匆忙建設而損害質量和安全。"
                 });
             }
+            
+            if (policy.includes('environment') || policy.includes('green') || policy.includes('環境')) {
+                oppositionVoices.push({
+                    type: 'opposition',
+                    demographic: currentLang === 'en' ? 'Industrial Association Representative' : '工業協會代表',
+                    quote: currentLang === 'en' ? 
+                        "Environmental regulations will increase costs and reduce competitiveness. Many manufacturers are already struggling. This policy could force more businesses to relocate." :
+                        "環境法規將增加成本並降低競爭力。許多製造商已經在掙扎。這項政策可能迫使更多企業搬遷。"
+                });
+            }
+            
+            // 通用反對聲音
+            oppositionVoices.push(
+                {
+                    type: 'opposition',
+                    demographic: currentLang === 'en' ? 'Retired Civil Servant, Age 68' : '退休公務員，68歲',
+                    quote: currentLang === 'en' ? 
+                        "I've seen too many government initiatives fail due to poor planning and execution. This policy lacks detail and seems politically motivated rather than evidence-based." :
+                        "我見過太多政府倡議因規劃和執行不力而失敗。這項政策缺乏細節，似乎是政治動機而非基於證據。"
+                },
+                {
+                    type: 'opposition',
+                    demographic: currentLang === 'en' ? 'Taxpayers Association Member' : '納稅人協會成員',
+                    quote: currentLang === 'en' ? 
+                        "Where will the funding come from? Hong Kong already has significant fiscal challenges. This policy will burden future generations with debt while delivering uncertain benefits." :
+                        "資金從哪裡來？香港已經面臨重大財政挑戰。這項政策將使未來幾代人背負債務，而收益不確定。"
+                }
+            );
+            
+            voices.push(...oppositionVoices.slice(0, Math.min(2, Math.ceil(strongOpponents / 200))));
         }
         
         // Add sector-specific voices
